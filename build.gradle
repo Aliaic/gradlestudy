@@ -20,7 +20,7 @@ test {
         logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
     }
 //    include 'TestngAnnotationTest.class'
-    
+
 }
 
 
@@ -54,3 +54,5 @@ uploadArchives {  //在archives配置中上传工件，包括JAR文件。取决�
         }
     }
 }
+
+
