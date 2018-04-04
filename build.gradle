@@ -1,0 +1,55 @@
+group 'com.liang.test0403'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java' //添加test task
+//apply plugin: 'application'
+
+sourceCompatibility = 1.8
+repositories {
+    mavenCentral()
+}
+test {
+    useTestNG() //启用testNG支持，默认使用的Junit
+    useTestNG{
+        suites(file('src/main/testng.xml'));
+    }
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+    onOutput { descriptor, event ->
+        logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+    }
+//    include 'TestngAnnotationTest.class'
+}
+
+
+task testReport(type:TestReport){   //添加task 重定向报告路径
+    destinationDir = file("D:/gradletest/0404")
+    reportOn test
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile 'org.testng:testng:6.10'
+//    compile 'org.testng:testng:6.10'
+    compile group: 'org.testng', name: 'testng', version: '6.10'
+    compile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+
+}
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+    }
+}
+task copyJars(type:Copy){
+    from configurations.runtime
+    into 'libs'
+}
+uploadArchives {  //在archives配置中上传工件，包括JAR文件。取决于在archives配置中产生工件的任务，包括jar
+    repositories {
+        flatDir {
+            dirs 'repos'
+        }
+    }
+}
