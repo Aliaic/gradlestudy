@@ -20,6 +20,7 @@ test {
         logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
     }
 //    include 'TestngAnnotationTest.class'
+    
 }
 
 
